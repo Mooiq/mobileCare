@@ -6,4 +6,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <WingBlank>
+    <div Button (onClick)="showToast()">text only</div>
+    <WhiteSpace></WhiteSpace>
+    <div Button (onClick)="showToastNoMask()">without mask</div>
+    <WhiteSpace></WhiteSpace>
+    <div Button (onClick)="showToastTop()">position top</div>
+    <WhiteSpace></WhiteSpace>
+    <div Button (onClick)="showToastBottom()">position bottom</div>
+    <WhiteSpace></WhiteSpace>
+    <div Button (onClick)="showCustomIcon(content)">custom content</div>
+    <WhiteSpace></WhiteSpace>
+    <div Button (onClick)="successToast()">success</div>
+    <WhiteSpace></WhiteSpace>
+    <div Button (onClick)="failToast()">fail</div>
+    <WhiteSpace></WhiteSpace>
+    <div Button (onClick)="offline()">network failure</div>
+    <WhiteSpace></WhiteSpace>
+    <div Button (onClick)="loadingToast()">loading</div>
+    <WhiteSpace></WhiteSpace>
+    <ng-template #content>
+      <p>toast的内容</p>
+      <p>toast的内容</p>
+    </ng-template>
+  </WingBlank>
+</ion-content>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { HttpService } from '../../common/service/http-config.service';
+import { ToastService } from 'ng-zorro-antd-mobile';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -7,6 +8,20 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  constructor(
+    public http: HttpService,
+    private _toast: ToastService
+  ) {}
+
+  ionViewDidEnter(){
+    this.http.get('building/list').then(data=>{
+      console.log(data.data);
+    });
+
+    this.http.post('floor/list',{buildingId:"4028815e6b01e97f016b02261ab101ed"}).then(data=>{
+      console.error(data.data);
+    })
+
+  }
 
 }

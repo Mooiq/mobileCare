@@ -8,5 +8,12 @@ import { Component } from '@angular/core';
 export class Tab3Page {
 
   constructor() {}
+  change(){
+    const el = document.querySelector(':root');
+    console.error(el);
+    const color = el['style'].getPropertyValue('--ion-background-color');
+    console.error(color);
+    el['style'].setProperty('--ion-background-color', '#006600');
 
+  }
 }
