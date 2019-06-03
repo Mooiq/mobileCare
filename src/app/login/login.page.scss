@@ -1,0 +1,107 @@
+// 自定义表单默认样式
+.myForm {
+    $label-width: 62px;
+    $danger-color: #f53d3d;
+    ion-item {
+      font-size: 1.2rem;
+      --ion-background-color: #fff;
+    }
+    ion-label {
+      min-width: $label-width;
+      &[required]:before, &.required:before {
+        position: absolute; /* 使用绝对定位让*不占用位置 */
+        color: $danger-color;
+        content: '*';
+        margin-left: -8px;
+        margin-top: 3px;
+      }
+      &.too-long { /* label内容超过$label-width自动换行 */
+        text-overflow: inherit;
+        white-space: normal;
+        margin: 1px 8px 1px 0;
+        width: $label-width;
+      }
+    }
+    ion-input, ion-datetime, ion-select {
+      width: 100%;
+      max-width: 100%;
+      padding-left: 0;
+      --placeholder-color: #000;
+      --placeholder-opacity: 0.33;
+    }
+    ion-datetime {
+      --placeholder-color: rgba(0, 0, 0, 0.33);
+    }
+    .form-invalid-tip {
+      padding: 1px 16px;
+      color: $danger-color;
+      line-height: 18px;
+      > div:before {
+        content: '!';
+        display: inline-block;
+        text-align: center;
+        font-size: 14px;
+        color: #fff;
+        width: 17px;
+        height: 16px;
+        background: $danger-color;
+        border-radius: 50%;
+        margin-right: 2px;
+      }
+    }
+    .form-item-content {
+      width: 100%;
+      margin: 11px 0;
+      .form-radio, .form-checkbox {
+        margin-right: 8px;
+        display: inline-block;
+        ion-icon {
+          font-size: 20px;
+          vertical-align: top;
+        }
+      }
+      .form-textarea {
+        min-height: 18px;
+        max-height: 100px; /* 自定义最大高度，超出会显示滚动条 */
+        overflow: auto;
+        outline: none;
+        -webkit-user-select: text;
+      }
+      .form-textarea-placeholder:before {
+        content: '说你想说的...';
+        position: absolute;
+        color: rgba(0, 0, 0, 0.33);
+        text-overflow: clip;
+      }
+      .form-number-step {
+        input {
+          width: 30px;
+          border: none;
+          text-align: center;
+          vertical-align: bottom;
+          line-height: 22px;
+        }
+        ion-icon {
+          font-size: 20px;
+          vertical-align: top;
+          font-weight: bold;
+          color: #999;
+          background: #eee;
+          border-radius: 50%;
+          width: 22px;
+          height: 22px;
+          text-align: center;
+          position: relative;
+          &:after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            bottom: -5px;
+            right: -5px;
+            left: -5px;
+          }
+        }
+      }
+    }
+  
+  }

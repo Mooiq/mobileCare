@@ -8,24 +8,48 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { Tab1Page } from './tab1/tab1.page';
+import { Tab2Page } from './tab2/tab2.page';
+import { Tab3Page } from './tab3/tab3.page';
+import { TabsPage } from './tabs/tabs.page';
+import { LoginPage } from './login/login.page';
 
 import { BackButtonService } from '../common/service/back-button.service';
 import { HttpService } from '../common/service/http-config.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { NgZorroAntdMobileModule } from 'ng-zorro-antd-mobile';
+import { AppMinimize } from '@ionic-native/app-minimize/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    Tab1Page,
+    Tab2Page,
+    Tab3Page,
+    TabsPage,
+    LoginPage
+  ],
   entryComponents: [],
-  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule, FormsModule, NgZorroAntdMobileModule],
+  imports: [
+    BrowserModule, 
+    HttpClientModule, 
+    IonicModule.forRoot(), 
+    AppRoutingModule, 
+    BrowserAnimationsModule, 
+    FormsModule, 
+    NgZorroAntdMobileModule, 
+    IonicStorageModule.forRoot()
+  ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     BackButtonService,
-    HttpService
+    HttpService,
+    AppMinimize
   ],
   bootstrap: [AppComponent]
 })
