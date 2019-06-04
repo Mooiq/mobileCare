@@ -16,6 +16,7 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference explain="指定要执行的闪屏淡入淡出效果的毫秒数" name="FadeSplashScreenDuration" value="300" />
+    <preference explain="禁用淡出效果" name="FadeSplashScreen" value="false"/>
     <preference explain="是否只第一次显示" name="SplashShowOnlyFirstTime" value="false" />
     <preference explain="自动生成平台路径下的文件夹中的图像的名称" name="SplashScreen" value="screen" />
     <preference explain="指定的时间量后隐藏启动画面" name="SplashScreenDelay" value="1500" />
