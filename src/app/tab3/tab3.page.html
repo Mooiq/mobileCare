@@ -7,5 +7,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-button color="primary" (click)="change()">Primary</ion-button>
+  <!-- <ion-button color="primary" (click)="change()">Primary</ion-button> -->
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <ion-toggle color="primary" [(ngModel)]="theme" (ionChange)="change()"></ion-toggle>
+  <br>
+  <br>
+  <br>
+  <br>
+  <ion-button color="primary" (click)="exit()" background="--background">退出</ion-button>
 </ion-content>

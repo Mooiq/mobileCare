@@ -7,7 +7,7 @@ import { Tab3Page } from './tab3/tab3.page';
 import { LoginPage } from './login/login.page';
 
 const routes: Routes = [
-  { path: 'tabs',  
+  { path: 'tabs',
     component: TabsPage,
     children: [
       {

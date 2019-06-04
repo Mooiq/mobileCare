@@ -14,7 +14,6 @@ import { Tab3Page } from './tab3/tab3.page';
 import { TabsPage } from './tabs/tabs.page';
 import { LoginPage } from './login/login.page';
 
-import { BackButtonService } from '../common/service/back-button.service';
 import { HttpService } from '../common/service/http-config.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -34,20 +33,19 @@ import { IonicStorageModule } from '@ionic/storage';
   ],
   entryComponents: [],
   imports: [
-    BrowserModule, 
-    HttpClientModule, 
-    IonicModule.forRoot(), 
-    AppRoutingModule, 
-    BrowserAnimationsModule, 
-    FormsModule, 
-    NgZorroAntdMobileModule, 
+    BrowserModule,
+    HttpClientModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    NgZorroAntdMobileModule,
     IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    BackButtonService,
     HttpService,
     AppMinimize
   ],

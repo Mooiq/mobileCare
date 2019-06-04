@@ -7,7 +7,9 @@ import { ToastService } from 'ng-zorro-antd-mobile';
 })
 export class Tab2Page {
 
-  constructor() {}
+  constructor(
+    private _toast: ToastService
+  ) {}
 
   showToast() {
     const toast = ToastService.show('This is a toast tips !!!', 0);

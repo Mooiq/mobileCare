@@ -35,13 +35,12 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.splashScreen.hide();
       this.statusBar.styleDefault();
-      // this.backbutton.backbutton();
       this.ipconfig.initIpConfig();
       this.storage.get('loginStatus').then(val=>{
         if(!val){
           this.nav.navigateRoot('/login');
         }else{
-          this.nav.navigateRoot('/tabs');
+          this.nav.navigateRoot('/tabs/tab2');
         }
       }); 
     });

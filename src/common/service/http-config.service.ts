@@ -1,3 +1,6 @@
+/**
+ * Created by Mooqi on 6-2.
+ */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from 'ng-zorro-antd-mobile';
@@ -51,12 +54,10 @@ export class HttpService {
       if(response.status === 200){
         return response.json();
       }else{
-        response.json().then(data=>{
-          const toast = ToastService.fail(data.message, 0);
-          setTimeout(() => {
-            ToastService.hide();
-          }, 3000);
-        })
+        const toast = ToastService.fail(`网络错误: ${response.status}`, 0);
+        setTimeout(() => {
+          ToastService.hide();
+        }, 2000);
       }
     } else {
       const toast = ToastService.offline('服务器出错啦 !!!', 2000);

@@ -26,7 +26,7 @@ export class LoginPage implements OnInit {
     this.loading = true;
     this.storage.set('userINFO',this.user);
     this.storage.set('loginStatus',true);
-    const toast = ToastService.loading('Loading...', 3000, () => {
+    const toast = ToastService.loading('登陆中...', 1000, () => {
       this.nav.navigateRoot('/tabs/tab2');
       this.loading = false;
     });

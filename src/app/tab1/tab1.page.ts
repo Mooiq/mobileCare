@@ -15,11 +15,11 @@ export class Tab1Page {
 
   ionViewDidEnter(){
     this.http.get('building/list').then(data=>{
-      console.log(data.data);
+      console.log(data);
     });
 
     this.http.post('floor/list',{buildingId:"4028815e6b01e97f016b02261ab101ed"}).then(data=>{
-      console.error(data.data);
+      console.error(data);
     })
 
   }
