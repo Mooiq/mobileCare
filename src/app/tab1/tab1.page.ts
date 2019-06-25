@@ -7,20 +7,22 @@ import { ToastService } from 'ng-zorro-antd-mobile';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-
+  show = true;
   constructor(
     public http: HttpService,
     private _toast: ToastService
   ) {}
 
   ionViewDidEnter(){
-    this.http.get('building/list').then(data=>{
-      console.log(data);
-    });
 
-    this.http.post('floor/list',{buildingId:"4028815e6b01e97f016b02261ab101ed"}).then(data=>{
-      console.error(data);
-    })
+    // http请求测试
+    // this.http.get('building/list').then(data=>{
+    //   console.log(data);
+    // });
+
+    // this.http.post('floor/list',{buildingId:"4028815e6b01e97f016b02261ab101ed"}).then(data=>{
+    //   console.error(data);
+    // })
 
   }
 

@@ -1,0 +1,20 @@
+ion-toolbar {
+    color: var(--my-color-text)
+}
+ion-segment-button {
+    --color: #aaa;
+    --indicator-color-checked: #22bed1;
+    --color-checked: #22bed1;;
+}
+ion-card-title {
+    color: var(--my-color-text)
+}
+ion-input input{
+    --padding-bottom: 0px;
+}
+.goods {
+    background: var(--ion-background-color);
+}
+.textColor {
+    color: var(--my-color-text)
+}

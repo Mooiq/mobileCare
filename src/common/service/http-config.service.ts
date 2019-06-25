@@ -24,7 +24,17 @@ export class HttpService {
     });
   }
 
-  get(url) {
+  get(url,option?:object) {
+    if(option){
+      let paramsArray = [];
+      //拼接参数  
+      Object.keys(option).forEach(key => paramsArray.push(key + '=' + option[key]))
+      if (url.search(/\?/) === -1) {
+          url += '?' + paramsArray.join('&');
+      } else {
+          url += '&' + paramsArray.join('&');
+      }
+    }
     return fetch(`${this.baseUrl + url}`, {
       method: 'GET',
       headers: this.headers
@@ -54,10 +64,7 @@ export class HttpService {
       if(response.status === 200){
         return response.json();
       }else{
-        const toast = ToastService.fail(`网络错误: ${response.status}`, 0);
-        setTimeout(() => {
-          ToastService.hide();
-        }, 2000);
+        const toast = ToastService.fail(`网络错误: ${response.status}`, 2000);
       }
     } else {
       const toast = ToastService.offline('服务器出错啦 !!!', 2000);

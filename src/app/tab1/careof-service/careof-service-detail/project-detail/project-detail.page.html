@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align: center;padding-right:60px;">服务详情</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- 项目图标 -->
+  <div style="margin-top:20px;text-align: center;">
+    <span style="display: inline-block;width:50%;">
+      <!-- 自定义图标 -->
+      <span *ngIf="project?.picEl?.mode === 'diy'" style="display:inline-block;width: 70px;height: 70px;border-radius: 5px;line-height: 70px;font-size: 2.8em;text-align: center;" [ngStyle]="{'background': project.picEl.bacColor}">
+        <span style="font-weight: bold;" [ngStyle]="{'color': project.picEl.fontColor}">{{project.picEl.word}}</span>
+      </span>
+      <!-- 本地 -->
+      <span *ngIf="project?.picEl?.mode === 'local'">
+        <img [src]="project.picEl.picUrl" alt="" width="70px;" height="70px;" style="border-radius: 5px;width: 70px;height: 70px;">
+      </span>
+      <!-- 系统图标 -->
+      <span *ngIf="project?.picEl?.mode === 'sysIcon'">
+        <img [src]="project.picEl.picUrl" alt="" width="70px;" height="70px;" style="border-radius: 5px;width: 70px;height: 70px;">
+      </span>
+      <div style="color: #22bed1;font-size: 18px;">{{project?.project}}</div>
+    </span>
+  </div>
+  <!-- 工作标准 -->
+  <div style="margin-top: 20px;" *ngIf="project.standard">
+    <h5 style="text-align: left;padding-left: 10px;" class="textColor">工作标准</h5>
+    <ion-text>
+      <h6 style="line-height: 1.5;letter-spacing: 1px;color:#aaaaaa;text-indent: 2em;">{{project.standard}}</h6>
+    </ion-text>
+  </div>
+  <!-- diy -->
+  <div style="margin-top: 20px;" *ngIf="diy.length">
+    <h5 style="text-align: left;padding-left: 10px;" class="textColor">登记内容</h5>
+    <div style="padding: 0 18px;">
+      <div style="text-align: left;padding-left: 10px;">
+        <ion-checkbox style="top:3px;margin-right:10px;" #checkbox1 (ionChange)="useGood(checkbox1.checked)"></ion-checkbox>
+        <span>使用：{{ project.goods }}</span>
+        <input class="goods" type="number" style="display: inline-block;margin:0 20px; width:20%;border:none;border-bottom: 2px solid #737373;text-align: center" [(ngModel)]="num" oninput="if(value.length>3)value=value.slice(0,3)">
+        件
+      </div>
+
+      <div *ngFor="let item of diy; let i = index;" style="margin-top:15px;">
+        <!-- 单选 -->
+        <div *ngIf="item.classify == '单选'">
+          <div style="text-align: left;padding-left: 10px;">{{ item.title }}：</div>
+          <ion-radio-group #radiogroup (ionChange)="radioChange(radiogroup.value,i)" [value]="item.value.checkValue">
+            <ion-item *ngFor="let x of item.option;let i = index;">
+              <ion-label>{{x}}</ion-label>
+              <ion-radio [value]="x"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </div>
+
+        <!-- 多选 -->
+        <div *ngIf="item.classify == '多选'">
+          <div style="text-align: left;padding-left: 10px;">{{ item.title }}：</div>
+          <ion-item *ngFor="let x of item.option;let i = index;">
+            <ion-label>{{x}}</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="item.value[i].ischecked"></ion-checkbox>
+          </ion-item>
+        </div>
+
+        <!-- 文字输入 -->
+        <div *ngIf="item.classify == '文字输入'">
+          <div style="text-align: left;padding-left: 10px;">{{ item.title }}：</div>
+          <ion-textarea auto-grow="true" maxlength="150" [(ngModel)]="item.value" style="border-bottom: 2px solid #737373;text-align:left;"></ion-textarea>
+          <!-- <input nz-input maxlength="50" style="width:70%" placeholder="请输入自定义内容" [(ngModel)]="item.value" /> -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 扫NFC说明 -->
+  <div style="padding:20px;">
+    <div style="text-align: center;">
+      <svg class="icon" aria-hidden="true" style="font-size: 12em;">
+          <use xlink:href="#iconnfc"></use>
+      </svg>
+    </div>
+    <ion-text>
+      <h5 style="color:#aaaaaa;">将手机背面的NFC扫描区域靠近位于老人床头的NFC识别区域可以完成服务登记</h5>
+    </ion-text>
+  </div>
+</ion-content>

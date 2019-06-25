@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align: center;padding-right:60px;">照护总览</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- 日期 -->
+  <ion-item>
+    <ion-label><span class="textColor">日期</span></ion-label>
+    <ion-datetime 
+      display-format="YYYY-MM-DD" 
+      picker-format="YYYY MMMM DD" 
+      min="2017" 
+      max="2020-10-31" 
+      doneText="完成" 
+      cancelText="取消"
+      monthNames="1月,2月,3月,4月,5月,6月,7月,8月,9月,10月,11月,12月"
+      [value]="nowDate"
+      (ionChange)="dateChange($event)"
+      ></ion-datetime>
+  </ion-item>
+
+  <!-- 统计 -->
+  <div style="margin-top: 20px;">
+    <h5 style="text-align: left;padding-left: 10px;" class="textColor">
+      <svg class="icon" aria-hidden="true">
+          <use xlink:href="#iconbiaotiicon"></use>
+      </svg>
+      服务统计
+    </h5>
+    <ion-grid >
+      <ion-row>
+        <ion-col size="6">
+          <svg class="icon" aria-hidden="true" style="font-size: 4rem;">
+              <use xlink:href="#iconfuwu"></use>
+          </svg>
+          <br>
+          {{sumy?.zhfw}}
+          <span style="font-size: 1.2rem">次</span>
+          <br>
+          <span style="font-size: 1.2rem">照护服务</span>
+        </ion-col>
+        <ion-col size="6">
+          <svg class="icon" aria-hidden="true" style="font-size: 4rem;">
+              <use xlink:href="#icondasao"></use>
+          </svg>
+          <br>
+          {{sumy?.wsqj}}
+          <span style="font-size: 1.2rem">次</span>
+          <br>
+          <span style="font-size: 1.2rem">卫生清洁</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <h5 style="text-align: left;padding-left: 10px;" class="textColor">
+      <svg class="icon" aria-hidden="true">
+          <use xlink:href="#iconbiaotiicon"></use>
+      </svg>
+      服务达标率
+    </h5>
+    <ion-grid >
+      <ion-row>
+        <ion-col size="6">
+          {{sumy?.zhfwl}}
+          <br>
+          <span style="font-size: 1.2rem">照护服务</span>
+        </ion-col>
+        <ion-col size="6">
+          {{sumy?.wsqjl}}
+          <br>
+          <span style="font-size: 1.2rem">卫生清洁</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <h5 style="text-align: left;padding-left: 10px;" class="textColor">
+      <svg class="icon" aria-hidden="true">
+          <use xlink:href="#iconbiaotiicon"></use>
+      </svg>
+      交接班情况
+    </h5>
+    <ion-grid >
+      <ion-row>
+        <ion-col size="6">
+          <svg class="icon" aria-hidden="true" style="font-size: 4rem;">
+              <use xlink:href="#iconsun"></use>
+          </svg>
+          <br>
+          <span style="font-size: 1.2rem">
+            <svg *ngIf="sumy?.shift == 1" class="icon" aria-hidden="true">
+                <use xlink:href="#iconGroupCopy"></use>
+            </svg>
+            白班
+          </span>
+        </ion-col>
+        <ion-col size="6">
+          <svg class="icon" aria-hidden="true" style="font-size: 4rem;">
+              <use xlink:href="#iconyewan"></use>
+          </svg>
+          <br>
+          <span style="font-size: 1.2rem">
+            <svg *ngIf="sumy?.shift == 0" class="icon" aria-hidden="true">
+                <use xlink:href="#iconGroupCopy"></use>
+            </svg>
+            夜班
+          </span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
+
+
+</ion-content>

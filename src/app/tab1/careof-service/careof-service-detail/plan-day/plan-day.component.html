@@ -1,0 +1,44 @@
+<!-- 列表 -->
+<div *ngFor="let item of timeLine;let key = index;">
+  <div [id]="'projectInterval'+key" style="overflow: hidden;transition:height 0.5s;">
+    <ion-list>
+      <ion-list-header (click)="flexible('projectInterval'+key,key)">
+        <ion-label>
+          <svg class="icon" aria-hidden="true" style="font-size: 1.6rem;">
+            <use xlink:href="#iconshouye-"></use>
+          </svg>
+          <span class="textColor" style="font-size: 1.3rem;">{{item.dayInterval}}</span>
+        </ion-label>
+        <!-- <ion-icon name="menu" style="font-size: 1.3rem;color: #3880ff;margin-right: 20px;"></ion-icon> -->
+
+        <svg *ngIf="item.isExpand" class="icon" aria-hidden="true" style="font-size: 1.3rem;margin-right: 20px;">
+          <use xlink:href="#iconangle-double-up"></use>
+        </svg>
+        <svg *ngIf="!item.isExpand" class="icon" aria-hidden="true" style="font-size: 1.3rem;margin-right: 20px;">
+          <use xlink:href="#iconangle-double-down"></use>
+        </svg>
+      </ion-list-header>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col style="text-align: center" size="3" *ngFor="let pjct of item.item;let key = index;" (click)="goDetail(pjct)">
+              <!-- 自定义图标 -->
+              <span *ngIf="pjct.picEl?.mode === 'diy'" style="display:inline-block;width: 60px;height: 60px;border-radius: 5px;line-height: 60px;font-size: 2.6em;text-align: center;margin-bottom: 4px;" [ngStyle]="{'background': pjct.picEl.bacColor}">
+                <span style="font-weight: bold;" [ngStyle]="{'color': pjct.picEl.fontColor}">{{pjct.picEl.word}}</span>
+              </span>
+              <!-- 本地 -->
+              <span *ngIf="pjct.picEl?.mode === 'local'">
+                <img [src]="pjct.picEl.picUrl" alt="" width="60px;" height="60px;" style="border-radius: 5px;width: 60px;height: 60px;">
+              </span>
+              <!-- 系统图标 -->
+              <span *ngIf="pjct.picEl?.mode === 'sysIcon'">
+                <img [src]="pjct.picEl.picUrl" alt="" width="60px;" height="60px;" style="border-radius: 5px;width: 60px;height: 60px;">
+              </span>
+              <div style="font-size: 15px;color: #22bed1;">{{pjct.project}}</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </div>
+</div>

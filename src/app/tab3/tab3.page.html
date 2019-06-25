@@ -1,22 +1,115 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab Three
+    <ion-title style="text-align: center;">
+      我的
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- <ion-button color="primary" (click)="change()">Primary</ion-button> -->
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <ion-toggle color="primary" [(ngModel)]="theme" (ionChange)="change()"></ion-toggle>
-  <br>
-  <br>
-  <br>
-  <br>
-  <ion-button color="primary" (click)="exit()" background="--background">退出</ion-button>
+  <!-- 个人信息 -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="8">
+        <ion-list lines="none">
+          <ion-item tappable class="mine-header">
+            <ion-thumbnail slot="start">
+              <!-- <img src="./assets/icon/favicon.png" alt="头像"> -->
+              <svg class="icon" aria-hidden="true" style="font-size: 3em;">
+                  <use xlink:href="#iconhehu"></use>
+              </svg>
+            </ion-thumbnail>
+            <ion-label class="textColor">
+              <h1>{{userInfo?.name}}</h1>
+              <h2>{{userInfo?.spname}}</h2>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col size="4" style="padding-top: 15px;">
+        <ion-segment-button layout="icon-top" (click)="exit()">
+          <ion-label>退出<ion-icon slot="icon-only" name="volume-high" style="color:#3880ff"></ion-icon>
+          </ion-label>
+          <ion-icon name="power" style="color:rgb(231, 7, 7)"></ion-icon>
+        </ion-segment-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- 天气 -->
+  <ion-grid style="color: #666666;">
+    <ion-row>
+      <ion-col size="4" *ngFor="let item of monwes" (click)="speakWeather(item)">
+        <div style="display: flex;flex-wrap: nowrap;">
+          <div>
+            <svg class="icon" aria-hidden="true" style="font-size: 3em;">
+                <use [attr.xlink:href]="item.icon"></use>
+            </svg>
+          </div>
+          <div style="text-align: center;">
+            <span>{{item.date}}</span>
+            <br>
+            <span>{{item.weekDay}}</span>
+          </div>
+        </div>
+        <div style="display: flex;flex-wrap: nowrap;">
+          <div style="max-width:60px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align: center;">
+              <span>{{item.temperature}}</span>
+              <br>
+              <span>{{item.wea}}</span>
+          </div>
+          <div style="text-align: center;font-size: 1.1rem;font-weight: bolder;flex-grow: 2;">
+            <span>{{item.banci?item.banci:'-'}}</span>
+          </div>
+        </div>
+        
+      </ion-col>
+      <ion-col size="3" *ngFor="let item of tursun" (click)="speakWeather(item)">
+        <svg class="icon" aria-hidden="true" style="font-size: 3em;">
+            <use [attr.xlink:href]="item.icon"></use>
+        </svg>
+        <br>
+        <span>{{item.date}}</span>
+        <br>
+        <span>{{item.temperature}}</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+  <!-- 功能 -->
+  <ion-list>
+    <ion-item detail>
+      <ion-icon slot="start" name="heart-empty" style="color:#3880ff"></ion-icon>
+      <ion-label (click)="speak(item[0])">
+        <h2 class="textColor">{{item[0].title}}<ion-icon slot="icon-only" name="volume-high" style="color:#3880ff"></ion-icon>
+        </h2>
+        <p>{{item[0].exp}}</p>
+        <div style="height:50px;width:130px;position:absolute;top: 10px;right: 0;z-index: 10;" (click)="ev($event)" routerLink="/concern"></div>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="volume-high" style="color:#3880ff"></ion-icon>
+      <ion-label (click)="speak(item[1])">
+        <h2 class="textColor">{{item[1].title}}<ion-icon slot="icon-only" name="volume-high" style="color:#3880ff"></ion-icon>
+        </h2>
+        <p>{{item[1].exp}}</p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="ttsSpeak" (ionChange)="ttsChange()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="eye" style="color:#3880ff"></ion-icon>
+      <ion-label (click)="speak(item[2])">
+        <h2 class="textColor">{{item[2].title}}<ion-icon slot="icon-only" name="volume-high" style="color:#3880ff"></ion-icon>
+        </h2>
+        <p>{{item[2].exp}}</p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="darkTheme" (ionChange)="themeChange()"></ion-toggle>
+    </ion-item>
+    <!-- <ion-item tappable (click)="exit()">
+      <ion-icon slot="start" name="log-out" style="color:rgb(231, 7, 7)"></ion-icon>
+      <ion-label>退出登录</ion-label>
+    </ion-item> -->
+  </ion-list>
 </ion-content>

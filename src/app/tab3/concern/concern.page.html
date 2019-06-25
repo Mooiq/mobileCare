@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align: center;padding-right:60px;">照护关注</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- 下拉刷新 -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>    
+  </ion-refresher>
+  <!-- 列表 -->
+  <div *ngFor="let item of olderInfo;let key = index;">
+    <div [id]="'list'+key" style="overflow: hidden;transition:height 0.5s;">
+      <ion-list>
+        <ion-list-header (click)="flexible('list'+key,key)">
+          <ion-label>
+            <svg class="icon" aria-hidden="true" style="font-size: 1.6rem;">
+                <use xlink:href="#iconfangziyihuifu_fuzhi"></use>
+            </svg>
+            <span class="textColor" style="font-size: 1.3rem;">{{item.roomName}}</span>
+          </ion-label>
+          <!-- <ion-icon name="menu" style="font-size: 1.3rem;color: #3880ff;margin-right: 20px;"></ion-icon> -->
+          
+          <svg *ngIf="item.isExpand" class="icon" aria-hidden="true" style="font-size: 1.3rem;margin-right: 20px;">
+              <use xlink:href="#iconangle-double-up"></use>
+          </svg>
+          <svg *ngIf="!item.isExpand" class="icon" aria-hidden="true" style="font-size: 1.3rem;margin-right: 20px;">
+            <use xlink:href="#iconangle-double-down"></use>
+        </svg>
+        </ion-list-header>
+        <ion-item *ngFor="let bed of item.bedList">
+          <ion-avatar slot="start">
+            <!-- <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw=="> -->
+            <svg *ngIf="!bed.oldman" class="icon" aria-hidden="true" style="font-size: 3em;">
+                <use xlink:href="#iconchuangwei"></use>
+            </svg>
+            <svg *ngIf="bed.oldman && bed.oldman.sex == '男'" class="icon" aria-hidden="true" style="font-size: 3em;">
+                <use xlink:href="#icontouxiang1"></use>
+            </svg>
+            <svg *ngIf="bed.oldman && bed.oldman.sex == '女'" class="icon" aria-hidden="true" style="font-size: 3em;">
+                <use xlink:href="#icontouxiangnvhai"></use>
+            </svg>
+          </ion-avatar>
+          <ion-label (click)="speak([bed.bedName,bed.oldman.name])">
+            <h2>{{bed.bedName}}</h2>
+            <p *ngIf="bed.oldman">{{bed.oldman.name}}</p>
+          </ion-label>
+            <ion-badge *ngIf="bed.oldman && bed.oldman.duty" color="secondary">责任</ion-badge>
+            <ion-icon *ngIf="!bed.isLike" name="heart-empty" (click)="concerSb(bed)"></ion-icon>
+            <ion-icon *ngIf="bed.isLike" name="heart" style="color: red" (click)="concerSb(bed)"></ion-icon>
+        </ion-item> 
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

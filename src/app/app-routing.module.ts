@@ -39,7 +39,20 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'login', component: LoginPage }
+  { path: 'login', component: LoginPage },
+  // tab1
+  { path: 'careof-service', loadChildren: './tab1/careof-service/careof-service.module#CareofServicePageModule' },
+  { path: 'careof-overview', loadChildren: './tab1/careof-overview/careof-overview.module#CareofOverviewPageModule' },
+  { path: 'careof-service/careof-service-detail', loadChildren: './tab1/careof-service/careof-service-detail/careof-service-detail.module#CareofServiceDetailPageModule' },
+  { path: 'careof-service/careof-service-detail/project-detail', loadChildren: './tab1/careof-service/careof-service-detail/project-detail/project-detail.module#ProjectDetailPageModule' },
+
+  // tab2
+  { path: 'service-project', loadChildren: './tab2/service-project/service-project.module#ServiceProjectPageModule' },
+
+  // tab3
+  { path: 'concern', loadChildren: './tab3/concern/concern.module#ConcernPageModule' }
+
+
 ];
 @NgModule({
   imports: [

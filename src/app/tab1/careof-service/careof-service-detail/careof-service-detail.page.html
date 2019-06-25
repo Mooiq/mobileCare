@@ -1,0 +1,59 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title style="text-align: center;padding-right:60px;">{{older.name}}老人照护计划</ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <!-- Segment with default selection -->
+  <ion-segment #segment (ionChange)="segmentChanged(segment,slider)" value="1">
+    <ion-segment-button value="0">
+      <ion-label>即时</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="1">
+      <ion-label>日计划</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="2">
+      <ion-label>周计划</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="3">
+      <ion-label>月计划</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  
+
+  <!-- slides -->
+  <ion-slides #slider pager="false" [options]="slideOpts" style="width: 100%;font-size: 15px;" (ionSlideDidChange)="slideChange(slider,segment)">
+    <!-- 即时 -->
+    <ion-slide>
+      <div style="position: relative;width: 100%;">
+        <app-plan-immediate [olderId]="older.id"></app-plan-immediate>
+      </div>
+    </ion-slide>
+
+    <!-- 日计划 -->
+    <ion-slide>
+      <div style="position: relative;width: 100%;">
+        <app-plan-day [olderId]="older.id"></app-plan-day>
+      </div>
+    </ion-slide>
+
+    <!-- 周计划 -->
+    <ion-slide>
+      <div style="position: relative;width: 100%;">
+        <app-plan-week [olderId]="older.id"></app-plan-week>
+      </div>
+    </ion-slide>
+
+    <!-- 月计划 -->
+    <ion-slide>
+      <div style="position: relative;width: 100%;">
+        <app-plan-month [olderId]="older.id"></app-plan-month>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

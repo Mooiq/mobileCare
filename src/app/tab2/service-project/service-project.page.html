@@ -1,0 +1,177 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align: center;padding-right:60px;">服务项目</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- 下拉刷新 -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>    
+  </ion-refresher>
+  <!-- Segment with default selection -->
+  <ion-segment #segment (ionChange)="segmentChanged(segment,slider)" value="1">
+    <ion-segment-button value="0">
+      <ion-label>工作标准</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="1">
+      <ion-label>登记内容</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="2">
+      <ion-label>服务对象</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+    
+  <!-- slides -->
+  <ion-slides #slider pager="false" [options]="slideOpts" style="width: 100%;font-size: 15px;" (ionSlideDidChange)="slideChange(slider,segment)">
+    <!-- 工作标准 -->
+    <ion-slide>
+      <div style="position: relative;width: 100%;">
+        <!-- <span style="display: block;position: absolute;right:20px;">
+          <svg class="icon" aria-hidden="true" style="font-size: 2em;">
+              <use xlink:href="#iconshuoming"></use>
+          </svg>
+        </span> -->
+        <div *ngIf="data.item.standard" style="padding: 20px;">
+          <h4 style="margin:0; text-align: center;color:#aaaaaa;">工作标准</h4>
+          <ion-text>
+            <h5 style="line-height: 1.5;letter-spacing: 1px;color:#aaaaaa;text-indent: 2em;">{{data.item.standard}}</h5>
+          </ion-text>
+        </div>
+        <div *ngIf="!data.item.standard" style="padding-top:20px;">
+          <svg class="icon" aria-hidden="true" style="font-size: 13rem;">
+              <use xlink:href="#iconzanwushuju"></use>
+          </svg>
+          <br>
+          <span style="color: #aaaaaa;font-size: 1.5rem;">暂无</span>
+        </div>
+      </div>
+    </ion-slide>
+
+    <!-- 登记内容 -->
+    <ion-slide>
+      <div style="position: relative;width: 100%;">
+        <!-- 项目图标 剩余数量 -->
+        <div style="margin-top:20px;text-align: center;">
+          <span style="display: inline-block;width:50%;">
+            <!-- 自定义图标 -->
+            <span *ngIf="data.item?.picEl?.mode === 'diy'" style="display:inline-block;width: 70px;height: 70px;border-radius: 5px;line-height: 70px;font-size: 2.8em;text-align: center;" [ngStyle]="{'background': data.item.picEl.bacColor}">
+              <span style="font-weight: bold;" [ngStyle]="{'color': data.item.picEl.fontColor}">{{data.item.picEl.word}}</span>
+            </span>
+            <!-- 本地 -->
+            <span *ngIf="data.item?.picEl?.mode === 'local'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="70px;" height="70px;" style="border-radius: 5px;width: 70px;height: 70px;">
+            </span>
+            <!-- 系统图标 -->
+            <span *ngIf="data.item?.picEl?.mode === 'sysIcon'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="70px;" height="70px;" style="border-radius: 5px;width: 70px;height: 70px;">
+            </span>
+            <div style="color: #22bed1">{{data.item?.project}}</div>
+          </span>
+          <span *ngIf="data.num > 0" style="display: inline-block;width:50%;">
+              <span style="display:inline-block;width: 70px;height: 70px;border-radius: 5px;line-height: 70px;font-size: 2.8em;text-align: center;">
+                <span style="font-weight: bold;color: #22bed1">{{data.num}}</span>
+              </span>
+              <div style="color: #22bed1">剩余数量</div>
+          </span>
+        </div>
+
+        <!-- diy -->
+        <div style="margin-top: 20px;" *ngIf="diy.length">
+          <h5 style="text-align: left;padding-left: 10px;" class="textColor">登记内容</h5>
+          <div style="padding: 0 18px;">
+            <div style="text-align: left;padding-left: 10px;">
+              <ion-checkbox style="top:3px;margin-right:10px;" #checkbox1 (ionChange)="useGood(checkbox1.checked)"></ion-checkbox>
+              <span>使用：{{ data.item.goods }}</span>
+              <input class="goods" type="number" style="display: inline-block;margin:0 20px; width:20%;border:none;border-bottom: 2px solid #737373;text-align: center" [(ngModel)]="num" oninput="if(value.length>3)value=value.slice(0,3)">
+              件
+            </div>
+
+            <div *ngFor="let item of diy; let i = index;" style="margin-top:15px;">
+              <!-- 单选 -->
+              <div *ngIf="item.classify == '单选'">
+                <div style="text-align: left;padding-left: 10px;">{{ item.title }}：</div>
+                <ion-radio-group #radiogroup (ionChange)="radioChange(radiogroup.value,i)" [value]="item.value.checkValue">
+                  <ion-item *ngFor="let x of item.option;let i = index;">
+                    <ion-label>{{x}}</ion-label>
+                    <ion-radio [value]="x"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </div>
+
+              <!-- 多选 -->
+              <div *ngIf="item.classify == '多选'">
+                <div style="text-align: left;padding-left: 10px;">{{ item.title }}：</div>
+                <ion-item *ngFor="let x of item.option;let i = index;">
+                  <ion-label>{{x}}</ion-label>
+                  <ion-checkbox slot="end" [(ngModel)]="item.value[i].ischecked"></ion-checkbox>
+                </ion-item>
+              </div>
+
+              <!-- 文字输入 -->
+              <div *ngIf="item.classify == '文字输入'">
+                <div style="text-align: left;padding-left: 10px;">{{ item.title }}：</div>
+                <ion-textarea auto-grow="true" maxlength="150" [(ngModel)]="item.value" style="border-bottom: 2px solid #737373;text-align:left;"></ion-textarea>
+                <!-- <input nz-input maxlength="50" style="width:70%" placeholder="请输入自定义内容" [(ngModel)]="item.value" /> -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 扫NFC说明 -->
+        <div style="padding:20px;">
+          <div>
+            <div>
+              <svg class="icon" aria-hidden="true" style="font-size: 9em;">
+                  <use xlink:href="#iconnfc"></use>
+              </svg>
+            </div>
+          </div>
+          <ion-text>
+            <h5 *ngIf="data.item?.object == '人'" style="color:#aaaaaa;">将手机背面的NFC扫描区域靠近位于老人床头的NFC识别区域可以完成服务登记</h5>
+            <h5 *ngIf="data.item?.object == '房间'" style="color:#aaaaaa;">将手机背面的NFC扫描区域靠近位于房间门口的NFC识别区域可以完成服务登记</h5>
+            <h5 *ngIf="data.item?.object == '消毒区域'" style="color:#aaaaaa;">将手机背面的NFC扫描区域靠近位于该区域的NFC识别区域可以完成服务登记</h5>
+          </ion-text>
+        </div>
+      </div>
+    </ion-slide>
+
+    <!-- 服务对象 -->
+    <ion-slide>
+      <div style="position: relative;width: 100%;">
+          <div *ngIf="data.x.length">
+            <ion-grid>
+              <ion-row>
+                <ion-col style="text-align: center" size="3" *ngFor="let item of data.x;let i = index;">
+                  <div *ngIf="data.item.object == '人'">
+                    <svg *ngIf="item.sex == '男'" class="icon" aria-hidden="true" style="font-size: 3em;">
+                        <use xlink:href="#icontouxiang1"></use>
+                    </svg>
+                    <svg *ngIf="item.sex == '女'" class="icon" aria-hidden="true" style="font-size: 3em;">
+                        <use xlink:href="#icontouxiangnvhai"></use>
+                    </svg>
+                    <div style="font-size: 15px;color: #22bed1">{{item.name}}</div>
+                    <div style="font-size: 15px;color: #22bed1">{{item.bedName}}</div>
+                  </div>
+                  <div *ngIf="data.item.object == '房间'">
+                    <svg class="icon" aria-hidden="true" style="font-size: 3em;">
+                        <use xlink:href="#iconfangzi"></use>
+                    </svg>
+                  </div>
+                  <div *ngIf="data.item.object == '消毒区域'">
+                    <svg class="icon" aria-hidden="true" style="font-size: 3em;">
+                        <use xlink:href="#icondasao"></use>
+                    </svg>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

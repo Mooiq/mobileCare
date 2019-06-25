@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AppMinimize } from '@ionic-native/app-minimize/ngx';
 import { Storage } from '@ionic/storage';
+import { Keyboard } from '@ionic-native/keyboard';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -28,21 +29,25 @@ export class AppComponent {
       if (this.router.url === '/login') {
         this.minimize.minimize();
       }
+      if (Keyboard.isVisible) {
+        Keyboard.hide();
+      }
     });
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.splashScreen.hide();
-      this.statusBar.styleDefault();
+      // this.statusBar.overlaysWebView(false);
+      this.statusBar.styleLightContent();
       this.ipconfig.initIpConfig();
       this.storage.get('loginStatus').then(val=>{
-        if(!val){
+        if (!val) {
           this.nav.navigateRoot('/login');
-        }else{
+        } else {
           this.nav.navigateRoot('/tabs/tab2');
         }
-      }); 
+      });
     });
   }
 }

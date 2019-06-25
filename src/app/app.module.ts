@@ -15,11 +15,16 @@ import { TabsPage } from './tabs/tabs.page';
 import { LoginPage } from './login/login.page';
 
 import { HttpService } from '../common/service/http-config.service';
+import { ThemeChangeService } from '../common/service/theme-change.service';
+import { SpeakService } from '../common/service/speak.service';
+import { NfcService } from '../common/service/nfc.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { NgZorroAntdMobileModule } from 'ng-zorro-antd-mobile';
 import { AppMinimize } from '@ionic-native/app-minimize/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { NFC, Ndef } from '@ionic-native/nfc/ngx';
 
 
 @NgModule({
@@ -47,7 +52,12 @@ import { IonicStorageModule } from '@ionic/storage';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     HttpService,
-    AppMinimize
+    ThemeChangeService,
+    SpeakService,
+    NfcService,
+    AppMinimize,
+    TextToSpeech,
+    NFC, Ndef
   ],
   bootstrap: [AppComponent]
 })

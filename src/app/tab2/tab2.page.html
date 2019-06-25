@@ -1,34 +1,268 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab Two
+    <ion-title style="text-align: center;">
+      关爱
     </ion-title>
   </ion-toolbar>
 </ion-header>
+<NoticeBar [option]="{'content': '2019年6月25日，星期二，22-30℃，小雨转多云，出门请带好雨具，注意保暖！！！', 'font': '14px'}"></NoticeBar>
 
 <ion-content>
-  <WingBlank>
-    <div Button (onClick)="showToast()">text only</div>
-    <WhiteSpace></WhiteSpace>
-    <div Button (onClick)="showToastNoMask()">without mask</div>
-    <WhiteSpace></WhiteSpace>
-    <div Button (onClick)="showToastTop()">position top</div>
-    <WhiteSpace></WhiteSpace>
-    <div Button (onClick)="showToastBottom()">position bottom</div>
-    <WhiteSpace></WhiteSpace>
-    <div Button (onClick)="showCustomIcon(content)">custom content</div>
-    <WhiteSpace></WhiteSpace>
-    <div Button (onClick)="successToast()">success</div>
-    <WhiteSpace></WhiteSpace>
-    <div Button (onClick)="failToast()">fail</div>
-    <WhiteSpace></WhiteSpace>
-    <div Button (onClick)="offline()">network failure</div>
-    <WhiteSpace></WhiteSpace>
-    <div Button (onClick)="loadingToast()">loading</div>
-    <WhiteSpace></WhiteSpace>
-    <ng-template #content>
-      <p>toast的内容</p>
-      <p>toast的内容</p>
-    </ng-template>
-  </WingBlank>
+    
+  <!-- 下拉刷新 -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>    
+  </ion-refresher>
+  <!-- 内容 -->
+  <!-- 过期项目 -->
+  <div *ngIf="overTimeInfo.length">
+    <div *ngFor="let element of overTimeInfo">
+    <ion-card  *ngIf="element.itemDetail.length !== 0">
+      <ion-card-header>
+        <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+        <ion-card-title style="color:#f04141">
+          <svg class="icon" aria-hidden="true" style="font-size: 1.5rem;">
+              <use xlink:href="#iconrenwuhong"></use>
+          </svg>
+          {{element.dayInterval}}
+        </ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col style="text-align: center" size="3" *ngFor="let data of element.itemDetail;let key = index;" (click)="goDetail(data)">
+              <!-- 自定义图标 -->
+              <ion-badge color="danger" style="position: absolute;right: 0;top: -6px;" *ngIf="data.num > 0">{{data.num}}</ion-badge> 
+              <span *ngIf="data.item.picEl?.mode === 'diy'" style="display:inline-block;width: 100%;height: 60px;border-radius: 5px;line-height: 60px;font-size: 3.6em;text-align: center;" [ngStyle]="{'background': data.item.picEl.bacColor}">
+                <span style="font-weight: bold;" [ngStyle]="{'color': data.item.picEl.fontColor}">{{data.item.picEl.word}}</span>
+              </span>
+              <!-- 本地 -->
+              <span *ngIf="data.item.picEl?.mode === 'local'">
+                <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+              </span>
+              <!-- 系统图标 -->
+              <span *ngIf="data.item.picEl?.mode === 'sysIcon'">
+                <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+              </span>
+              <div style="font-size: 15px;color: #22bed1">{{data.item.project}}</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    </div>
+  </div>
+
+  <!-- 时段项目 -->
+  <ion-card  *ngIf="intervalInfo.showProjectList.length !== 0">
+    <ion-card-header>
+      <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+      <ion-card-title>
+        <svg class="icon" aria-hidden="true" style="font-size: 1.5rem;">
+            <use xlink:href="#iconshouye-"></use>
+        </svg>
+        {{intervalInfo.time}}
+      </ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: center" size="3" *ngFor="let data of intervalInfo.showProjectList;let key = index;" (click)="goDetail(data)">
+            <!-- 自定义图标 -->
+            <ion-badge color="danger" style="position: absolute;right: 0;top: -6px;" *ngIf="data.num > 0">{{data.num}}</ion-badge> 
+            <span *ngIf="data.item.picEl?.mode === 'diy'" style="display:inline-block;width: 100%;height: 60px;border-radius: 5px;line-height: 60px;font-size: 3.6em;text-align: center;" [ngStyle]="{'background': data.item.picEl.bacColor}">
+              <span style="font-weight: bold;" [ngStyle]="{'color': data.item.picEl.fontColor}">{{data.item.picEl.word}}</span>
+            </span>
+            <!-- 本地 -->
+            <span *ngIf="data.item.picEl?.mode === 'local'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+            </span>
+            <!-- 系统图标 -->
+            <span *ngIf="data.item.picEl?.mode === 'sysIcon'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+            </span>
+            <div style="font-size: 15px;color: #22bed1">{{data.item.project}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <!-- 按钮 -->
+      <ion-button expand="full" fill="outline" (click)="showAllPro('intervalInfo')" *ngIf="intervalInfo.projectList.length > 4">
+        <span *ngIf="intervalInfo.showProjectList.length < intervalInfo.projectList.length">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconangle-double-down"></use>
+          </svg>
+          &nbsp;
+          查看剩余
+        </span>
+        <span *ngIf="intervalInfo.showProjectList.length == intervalInfo.projectList.length">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconangle-double-up"></use>
+          </svg>
+          
+        </span>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 即时项目 -->
+  <ion-card *ngIf="instantInfo.showProjectList.length !== 0">
+    <ion-card-header>
+      <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+      <ion-card-title>
+        <svg class="icon" aria-hidden="true" style="font-size: 1.5rem;">
+            <use xlink:href="#iconjishitongxun"></use>
+        </svg>
+        {{instantInfo.time}}
+      </ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-grid >
+        <ion-row>
+          <ion-col style="text-align: center" size="3" *ngFor="let data of instantInfo.showProjectList;let key = index;" (click)="goDetail(data)">
+            <!-- 自定义图标 -->
+            <ion-badge color="danger" style="position: absolute;right: 0;top: -6px;" *ngIf="data.num > 0">{{data.num}}</ion-badge> 
+            <span *ngIf="data.item.picEl?.mode === 'diy'" style="display:inline-block;width: 100%;height: 60px;border-radius: 5px;line-height: 60px;font-size: 3.6em;text-align: center;" [ngStyle]="{'background': data.item.picEl.bacColor}">
+              <span style="font-weight: bold;" [ngStyle]="{'color': data.item.picEl.fontColor}">{{data.item.picEl.word}}</span>
+            </span>
+            <!-- 本地 -->
+            <span *ngIf="data.item.picEl?.mode === 'local'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+            </span>
+            <!-- 系统图标 -->
+            <span *ngIf="data.item.picEl?.mode === 'sysIcon'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+            </span>
+            <div style="font-size: 15px;color: #22bed1">{{data.item.project}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+      <!-- 按钮 -->
+      <ion-button expand="full" fill="outline" (click)="showAllPro('instantInfo')" *ngIf="instantInfo.projectList.length > 4">
+        <span *ngIf="instantInfo.showProjectList.length < instantInfo.projectList.length">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconangle-double-down"></use>
+          </svg>
+          &nbsp;
+          查看剩余
+        </span>
+        <span *ngIf="instantInfo.showProjectList.length == instantInfo.projectList.length">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconangle-double-up"></use>
+          </svg>
+          
+        </span>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 每日项目 -->
+  <ion-card *ngIf="dayInfo.showProjectList.length !== 0">
+    <ion-card-header>
+      <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+      <ion-card-title>
+        <svg class="icon" aria-hidden="true" style="font-size: 1.5rem;">
+            <use xlink:href="#iconri"></use>
+        </svg>
+        {{dayInfo.time}}
+      </ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-grid >
+        <ion-row>
+          <ion-col style="text-align: center" size="3" *ngFor="let data of dayInfo.showProjectList;let key = index;" (click)="goDetail(data)">
+            <!-- 自定义图标 -->
+            <ion-badge color="danger" style="position: absolute;right: 0;top: -6px;" *ngIf="data.num > 0">{{data.num}}</ion-badge> 
+            <span *ngIf="data.item.picEl?.mode === 'diy'" style="display:inline-block;width: 100%;height: 60px;border-radius: 5px;line-height: 60px;font-size: 3.6em;text-align: center;" [ngStyle]="{'background': data.item.picEl.bacColor}">
+              <span style="font-weight: bold;" [ngStyle]="{'color': data.item.picEl.fontColor}">{{data.item.picEl.word}}</span>
+            </span>
+            <!-- 本地 -->
+            <span *ngIf="data.item.picEl?.mode === 'local'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+            </span>
+            <!-- 系统图标 -->
+            <span *ngIf="data.item.picEl?.mode === 'sysIcon'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+            </span>
+            <div style="font-size: 15px;color: #22bed1">{{data.item.project}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+      <!-- 按钮 -->
+      <ion-button expand="full" fill="outline" (click)="showAllPro('dayInfo')" *ngIf="dayInfo.projectList.length > 4">
+        <span *ngIf="dayInfo.showProjectList.length < dayInfo.projectList.length">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconangle-double-down"></use>
+          </svg>
+          &nbsp;
+          查看剩余
+        </span>
+        <span *ngIf="dayInfo.showProjectList.length == dayInfo.projectList.length">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconangle-double-up"></use>
+          </svg>
+          
+        </span>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 每周项目 -->
+  <ion-card *ngIf="weekInfo.showProjectList.length !== 0">
+    <ion-card-header>
+      <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+      <ion-card-title>
+        <svg class="icon" aria-hidden="true" style="font-size: 1.5rem;">
+            <use xlink:href="#iconbenzhou"></use>
+        </svg>
+        {{weekInfo.time}}
+      </ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-grid >
+        <ion-row>
+          <ion-col style="text-align: center" size="3" *ngFor="let data of weekInfo.showProjectList;let key = index;" (click)="goDetail(data)">
+            <!-- 自定义图标 -->
+            <ion-badge color="danger" style="position: absolute;right: 0;top: -6px;" *ngIf="data.num > 0">{{data.num}}</ion-badge> 
+            <span *ngIf="data.item.picEl?.mode === 'diy'" style="display:inline-block;width: 100%;height: 60px;border-radius: 5px;line-height: 60px;font-size: 3.6em;text-align: center;" [ngStyle]="{'background': data.item.picEl.bacColor}">
+              <span style="font-weight: bold;" [ngStyle]="{'color': data.item.picEl.fontColor}">{{data.item.picEl.word}}</span>
+            </span>
+            <!-- 本地 -->
+            <span *ngIf="data.item.picEl?.mode === 'local'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+            </span>
+            <!-- 系统图标 -->
+            <span *ngIf="data.item.picEl?.mode === 'sysIcon'">
+              <img [src]="data.item.picEl.picUrl" alt="" width="40px;" height="60px;" style="border-radius: 5px;">
+            </span>
+            <div style="font-size: 15px;color: #22bed1">{{data.item.project}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+      <!-- 按钮 -->
+      <ion-button expand="full" fill="outline" (click)="showAllPro('weekInfo')" *ngIf="weekInfo.projectList.length > 4">
+        <span *ngIf="weekInfo.projectList.length > weekInfo.showProjectList.length">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconangle-double-down"></use>
+          </svg>
+          &nbsp;
+          查看剩余
+        </span>
+        <span *ngIf="weekInfo.showProjectList.length == weekInfo.projectList.length">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconangle-double-up"></use>
+          </svg>
+          
+        </span>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

@@ -1,0 +1,22 @@
+<div>
+  <ion-grid >
+    <ion-row>
+      <ion-col style="text-align: center" size="3" *ngFor="let data of InTimeInfoProject;let key = index;" (click)="goDetail(data)">
+        <!-- 自定义图标 -->
+        <span *ngIf="data.picEl?.mode === 'diy'" style="display:inline-block;width: 60px;height: 60px;border-radius: 5px;line-height: 60px;font-size: 2.5em;text-align: center;margin-bottom: 6px;" [ngStyle]="{'background': data.picEl.bacColor}">
+          <span style="font-weight: bold;" [ngStyle]="{'color': data.picEl.fontColor}">{{data.picEl.word}}</span>
+        </span>
+        <!-- 本地 -->
+        <span *ngIf="data.picEl?.mode === 'local'">
+          <img [src]="data.picEl.picUrl" alt="" width="60px;" height="60px;" style="border-radius: 5px; width: 60px; height: 60px;">
+        </span>
+        <!-- 系统图标 -->
+        <span *ngIf="data.picEl?.mode === 'sysIcon'">
+          <img [src]="data.picEl.picUrl" alt="" width="60px;" height="60px;" style="border-radius: 5px; width: 60px; height: 60px;">
+        </span>
+        <div style="font-size: 15px;color: #22bed1">{{data.project}}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+
