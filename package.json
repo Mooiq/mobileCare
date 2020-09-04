@@ -41,7 +41,7 @@
     "cordova-sqlite-storage": "3.2.0",
     "core-js": "^2.5.4",
     "ng-zorro-antd-mobile": "^0.12.2",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "phonegap-nfc": "^1.0.3",
     "rxjs": "~6.5.1",
     "transition-height": "^1.0.2",
